@@ -533,10 +533,6 @@ const AnimatedPieChart = () => {
                     <div className="w-3 h-3 bg-yellow-500 rounded-sm"></div>
                     <span className="text-xs text-gray-600">Sold</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-blue-500 rounded-sm"></div>
-                    <span className="text-xs text-gray-600">Allocated</span>
-                  </div>
                 </div>
               </CardContent>
             </Card>
