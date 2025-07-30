@@ -435,20 +435,7 @@ const AnimatedPieChart = () => {
                     <Bar dataKey="Loss" stackId="a" fill="#F59E0B" radius={[2, 2, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
-                <div className="flex items-center justify-center space-x-6 mt-4">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-sm"></div>
-                    <span className="text-sm text-gray-600">Available</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-sm"></div>
-                    <span className="text-sm text-gray-600">Used</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-yellow-500 rounded-sm"></div>
-                    <span className="text-sm text-gray-600">Loss</span>
-                  </div>
-                </div>
+
               </CardContent>
             </Card>
 
@@ -477,16 +464,7 @@ const AnimatedPieChart = () => {
                     <Bar dataKey="Used" stackId="a" fill="#EF4444" radius={[2, 2, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
-                <div className="flex items-center justify-center space-x-6 mt-4">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-sm"></div>
-                    <span className="text-sm text-gray-600">Available</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-sm"></div>
-                    <span className="text-sm text-gray-600">Used</span>
-                  </div>
-                </div>
+
               </CardContent>
             </Card>
           </div>
@@ -522,18 +500,6 @@ const AnimatedPieChart = () => {
   </BarChart>
 </ResponsiveContainer>
 
-
-
-                <div className="flex items-center justify-center space-x-4 mt-4">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-sm"></div>
-                    <span className="text-xs text-gray-600">Available</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-yellow-500 rounded-sm"></div>
-                    <span className="text-xs text-gray-600">Sold</span>
-                  </div>
-                </div>
               </CardContent>
             </Card>
             <Card className="shadow-sm border-gray-200">
