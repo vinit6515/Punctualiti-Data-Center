@@ -18,7 +18,6 @@ import {
   Cell,
 } from "recharts"
 import { Bell, Settings, HelpCircle, User, BarChart3, Database, Server, Monitor, Zap, Activity } from "lucide-react"
-
 // Comprehensive data for different filter combinations
 const allData = {
   rackSpace: {
@@ -62,7 +61,6 @@ itCapacityBar: {
     { name: "Level 7", Available: -72.00, Sold: 1672.00, Allocated: 1672.00 },
   ],
 },
-
   itCapacityPie: {
     default: [
       { name: "Level 1", value: 0.00, color: "#6B7280" },
@@ -75,7 +73,6 @@ itCapacityBar: {
     ]
   },
 }
-
 // Compact Professional Tooltips
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CompactTooltip = ({ active, payload, label, type = "rack" }: any) => {
@@ -86,7 +83,6 @@ const CompactTooltip = ({ active, payload, label, type = "rack" }: any) => {
       <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-2 text-xs">
         <p className="font-medium text-gray-700 mb-1">{label}</p>
         <div className="space-y-0.5">
-
           {          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           payload.map((entry: any, index: number) => (
             <div key={index} className="flex items-center justify-between gap-2">
@@ -137,7 +133,6 @@ const PieTooltip = ({ active, payload }: any) => {
   }
   return null
 }
-
 export default function Dashboard() {
   const [filters, setFilters] = useState({
     complex: "",
@@ -145,7 +140,6 @@ export default function Dashboard() {
     from: "",
     to: "",
   })
-
   const handleFilterChange = (key: string, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }))
   }
@@ -165,20 +159,17 @@ const itCapacityPieData: PieDataPoint[] = useMemo(() => {
   const rawData = getFilteredData("itCapacityPie") as unknown as PieDataPoint[];
   return rawData.filter((d): d is PieDataPoint => d && typeof d.color === "string");
 }, [filters]);
-
   const capacityStats = {
     total: 14400,
     sold: 11746.75,
     unsold: 2653.25,
     percentage: ((11746.75 / 14400) * 100).toFixed(1),
   }
-
   const GaugeChart = () => {
     const data = [
       { name: "Sold", value: capacityStats.sold, color: "#10B981" },
       { name: "Unsold", value: capacityStats.unsold, color: "#EF4444" },
     ]
-    
     return (
       <div className="relative">
         <ResponsiveContainer width="100%" height={200}>
@@ -209,9 +200,6 @@ const itCapacityPieData: PieDataPoint[] = useMemo(() => {
       </div>
     )
   }
-
-
-
 const AnimatedPieChart = () => {
   return (
     <ResponsiveContainer width="100%" height={280}>
@@ -223,7 +211,6 @@ const AnimatedPieChart = () => {
           outerRadius={80}
           dataKey="value"
           labelLine={false}
-
         >
           {itCapacityPieData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
@@ -234,7 +221,6 @@ const AnimatedPieChart = () => {
     </ResponsiveContainer>
   )
 }
-
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
@@ -312,7 +298,6 @@ const AnimatedPieChart = () => {
                 <SelectItem value="site3">Site 3</SelectItem>
               </SelectContent>
             </Select>
-
             <Select value={filters.from} onValueChange={(value) => handleFilterChange("from", value)}>
               <SelectTrigger className="w-24 h-9">
                 <SelectValue placeholder="From" />
@@ -323,7 +308,6 @@ const AnimatedPieChart = () => {
                 <SelectItem value="mar">Mar</SelectItem>
               </SelectContent>
             </Select>
-
             <Select value={filters.to} onValueChange={(value) => handleFilterChange("to", value)}>
               <SelectTrigger className="w-24 h-9">
                 <SelectValue placeholder="To" />
@@ -334,7 +318,6 @@ const AnimatedPieChart = () => {
                 <SelectItem value="oct">Oct</SelectItem>
               </SelectContent>
             </Select>
-
             <Button variant="outline" onClick={resetFilters} className="h-9">
               Reset
             </Button>
@@ -343,7 +326,6 @@ const AnimatedPieChart = () => {
             </Button>
           </div>
         </div>
-
         {/* Dashboard Content */}
         <div className="flex-1 p-6 space-y-6 overflow-auto">
           {/* Top Row - Rack Space and White Space */}
@@ -366,7 +348,7 @@ const AnimatedPieChart = () => {
                   <BarChart data={rackSpaceData} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                     <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} />
+                    <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `${value} SQ FT`} />
                     <Tooltip content={(props) => <CompactTooltip {...props} type="rack" />} />
                     <Legend wrapperStyle={{ fontSize: '12px' }} />
                     <Bar dataKey="Available" stackId="a" fill="#10B981" radius={[0, 0, 0, 0]} />
@@ -409,7 +391,7 @@ const AnimatedPieChart = () => {
                   <BarChart data={whiteSpaceData} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                     <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} />
+                    <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `${value} SQ FT`}/>
                     <Tooltip content={(props) => <CompactTooltip {...props} type="space" />} />
                     <Legend wrapperStyle={{ fontSize: '12px' }} />
                     <Bar dataKey="Available" stackId="a" fill="#10B981" radius={[0, 0, 0, 0]} />
@@ -429,7 +411,6 @@ const AnimatedPieChart = () => {
               </CardContent>
             </Card>
           </div>
-
           {/* Bottom Row - IT Capacity Charts */}
           <div className="grid grid-cols-3 gap-6">
             <Card className="shadow-sm border-gray-200">
