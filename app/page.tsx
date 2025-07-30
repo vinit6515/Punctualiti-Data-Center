@@ -16,6 +16,7 @@ import {
   PieChart,
   Pie,
   Cell,
+  ReferenceLine,
 } from "recharts"
 import { Bell, Settings, HelpCircle, User, BarChart3, Database, Server, Monitor, Zap, Activity } from "lucide-react"
 // Comprehensive data for different filter combinations
@@ -51,15 +52,57 @@ const allData = {
     ],
   },
 itCapacityBar: {
-  default: [
-    { name: "Level 1", Available: 491, Sold: 2709, Allocated: 2709 },
-    { name: "Level 2", Available: 2402.25, Sold: 797.75, Allocated: 794.38 },
-    { name: "Level 3", Available: -30.00, Sold: 1630.00, Allocated: 1623.50 },
-    { name: "Level 4", Available: 0.00, Sold: 1600.00, Allocated: 1600.00 },
-    { name: "Level 5", Available: 0.00, Sold: 1600.00, Allocated: 1600.00 },
-    { name: "Level 6", Available: -138.00, Sold: 1738.00, Allocated: 1727.80 },
-    { name: "Level 7", Available: -72.00, Sold: 1672.00, Allocated: 1672.00 },
-  ],
+  default:  [
+  {
+    name: "Level 1",
+    Available: 491,
+    Sold: 2709,
+    Allocated: 2709,
+    Unused: 0, // 2709 - 2709
+  },
+  {
+    name: "Level 2",
+    Available: 2402.25,
+    Sold: 797.75,
+    Allocated: 794.38,
+    Unused: 3.37, // 797.75 - 794.38
+  },
+  {
+    name: "Level 3",
+    Available: -30.00,
+    Sold: 1630.00,
+    Allocated: 1623.50,
+    Unused: 6.5, // 1630 - 1623.5
+  },
+  {
+    name: "Level 4",
+    Available: 0.00,
+    Sold: 1600.00,
+    Allocated: 1600.00,
+    Unused: 0, // 1600 - 1600
+  },
+  {
+    name: "Level 5",
+    Available: 0.00,
+    Sold: 1600.00,
+    Allocated: 1600.00,
+    Unused: 0, // 1600 - 1600
+  },
+  {
+    name: "Level 6",
+    Available: -138.00,
+    Sold: 1738.00,
+    Allocated: 1727.80,
+    Unused: 10.2, // 1738 - 1727.8
+  },
+  {
+    name: "Level 7",
+    Available: -72.00,
+    Sold: 1672.00,
+    Allocated: 1672.00,
+    Unused: 0, // 1672 - 1672
+  },
+]
 },
   itCapacityPie: {
     default: [
@@ -75,41 +118,70 @@ itCapacityBar: {
 }
 // Compact Professional Tooltips
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CompactTooltip = ({ active, payload, label, type = "rack" }: any) => {
   if (active && payload && payload.length) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const total = payload.reduce((sum: number, entry: any) => sum + entry.value, 0)
+    // Extract individual values
+    const available = payload.find((p: any) => p.dataKey === "Available")?.value ?? 0
+    const sold = payload.find((p: any) => p.dataKey === "Sold")?.value ?? 0
+    const allocated = payload.find((p: any) => p.dataKey === "Allocated")?.value ?? 0
+
+    // Custom totals only for capacity type
+    const total = type === "capacity" ? available + sold : payload.reduce((sum: number, entry: any) => sum + entry.value, 0)
+    const unused = type === "capacity" ? sold - allocated : 0
+
     return (
       <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-2 text-xs">
         <p className="font-medium text-gray-700 mb-1">{label}</p>
+
         <div className="space-y-0.5">
-          {          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          payload.map((entry: any, index: number) => (
+          {payload.map((entry: any, index: number) => (
             <div key={index} className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-1">
-                <div 
-                  className="w-2 h-2 rounded-sm" 
+                <div
+                  className="w-2 h-2 rounded-sm"
                   style={{ backgroundColor: entry.color }}
                 />
                 <span className="text-gray-600">{entry.dataKey}:</span>
               </div>
-              <span className="font-medium">{entry.value}{type === "capacity" ? "Kw" : ""}</span>
+              <span className="font-medium">
+                {entry.value}
+                {type === "capacity" ? " kW" : ""}
+              </span>
             </div>
           ))}
         </div>
-        {total > 0 && (
+
+        {type === "capacity" && (
+          <div className="mt-1 pt-1 border-t border-gray-100 space-y-0.5">
+            <div className="flex justify-between text-gray-500">
+              <span>Total:</span>
+              <span className="font-medium">{total} kW</span>
+            </div>
+            <div className="flex justify-between text-gray-500">
+              <span>Sold:</span>
+              <span className="font-medium">
+                {unused.toFixed(2)} kW (Allocated) + {allocated} kW (Unused)
+              </span>
+            </div>
+          </div>
+        )}
+
+        {type !== "capacity" && total > 0 && (
           <div className="border-t border-gray-100 mt-1 pt-1">
             <div className="flex justify-between text-gray-500">
               <span>Total:</span>
-              <span className="font-medium">{total}{type === "capacity" ? "Kw" : ""}</span>
+              <span className="font-medium">{total}</span>
             </div>
           </div>
         )}
       </div>
     )
   }
+
   return null
 }
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PieTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -200,6 +272,7 @@ const itCapacityPieData: PieDataPoint[] = useMemo(() => {
       </div>
     )
   }
+
 const AnimatedPieChart = () => {
   return (
     <ResponsiveContainer width="100%" height={280}>
@@ -425,19 +498,26 @@ const AnimatedPieChart = () => {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={280}>
-                  <BarChart data={itCapacityBarData} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                    <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} />
-                    <Tooltip content={(props) => <CompactTooltip {...props} type="capacity" />} />
-                    <Legend wrapperStyle={{ fontSize: '12px' }} />
-                    <Bar dataKey="Available" stackId="a" fill="#10B981" radius={[0, 0, 0, 0]} />
-                    <Bar dataKey="Sold" stackId="a" fill="#F59E0B" radius={[0, 0, 0, 0]} />
-                    <Bar dataKey="Allocated" stackId="a" fill="#3B82F6" radius={[2, 2, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
+              <CardContent><ResponsiveContainer width="100%" height={280}>
+  <BarChart data={itCapacityBarData} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+    <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+    <YAxis
+      tick={{ fontSize: 12 }}
+      domain={['dataMin < 0 ? dataMin : 0', 'dataMax']}
+      tickFormatter={(value) => `${value} kW`}
+    />
+    <ReferenceLine y={0} stroke="red" strokeDasharray="3 3" />
+    <Tooltip content={(props) => <CompactTooltip {...props} type="capacity" />} />
+    <Legend wrapperStyle={{ fontSize: '12px' }} />
+    
+    <Bar dataKey="Available" fill="#10B981" radius={[0, 0, 0, 0]} />
+    <Bar dataKey="Sold" fill="#F59E0B" radius={[2, 2, 0, 0]} />
+  </BarChart>
+</ResponsiveContainer>
+
+
+
                 <div className="flex items-center justify-center space-x-4 mt-4">
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 bg-green-500 rounded-sm"></div>
