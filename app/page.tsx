@@ -130,6 +130,7 @@ const CompactTooltip = ({ active, payload, label, type = "rack" }: any) => {
     const allocated = payload.find((p: any) => p.dataKey === "Allocated")?.value ?? 0
 
     // Custom totals only for capacity type
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const total = type === "capacity" ? available + sold : payload.reduce((sum: number, entry: any) => sum + entry.value, 0)
     const unused = type === "capacity" ? sold - allocated : 0
 
