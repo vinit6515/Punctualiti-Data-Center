@@ -144,8 +144,6 @@ export default function Dashboard() {
     to: "",
   })
 
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
-
   const handleFilterChange = (key: string, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }))
   }
@@ -162,7 +160,7 @@ export default function Dashboard() {
   const itCapacityBarData = useMemo(() => getFilteredData("itCapacityBar"), [filters])
 type PieDataPoint = { name: string; value: number; color: string };
 const itCapacityPieData: PieDataPoint[] = useMemo(() => {
-  const rawData = getFilteredData("itCapacityPie") as any[];
+  const rawData = getFilteredData("itCapacityPie") as unknown as PieDataPoint[];
   return rawData.filter((d): d is PieDataPoint => d && typeof d.color === "string");
 }, [filters]);
 
