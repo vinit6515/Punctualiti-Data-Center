@@ -77,10 +77,11 @@ itCapacityBar: {
 }
 
 // Compact Professional Tooltips
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CompactTooltip = ({ active, payload, label, type = "rack" }: any) => {
   if (active && payload && payload.length) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const total = payload.reduce((sum: number, entry: any) => sum + entry.value, 0)
-    
     return (
       <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-2 text-xs">
         <p className="font-medium text-gray-700 mb-1">{label}</p>
@@ -111,12 +112,11 @@ const CompactTooltip = ({ active, payload, label, type = "rack" }: any) => {
   }
   return null
 }
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PieTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     const entry = payload[0]
     const percentage = ((entry.value / 1000) * 100).toFixed(1)
-    
     return (
       <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-2 text-xs">
         <div className="font-medium text-gray-700 mb-1">{entry.name}</div>
