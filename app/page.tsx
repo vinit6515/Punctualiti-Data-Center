@@ -122,8 +122,11 @@ itCapacityBar: {
 const CompactTooltip = ({ active, payload, label, type = "rack" }: any) => {
   if (active && payload && payload.length) {
     // Extract individual values
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const available = payload.find((p: any) => p.dataKey === "Available")?.value ?? 0
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sold = payload.find((p: any) => p.dataKey === "Sold")?.value ?? 0
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const allocated = payload.find((p: any) => p.dataKey === "Allocated")?.value ?? 0
 
     // Custom totals only for capacity type
@@ -135,7 +138,9 @@ const CompactTooltip = ({ active, payload, label, type = "rack" }: any) => {
         <p className="font-medium text-gray-700 mb-1">{label}</p>
 
         <div className="space-y-0.5">
-          {payload.map((entry: any, index: number) => (
+
+          {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+          payload.map((entry: any, index: number) => (
             <div key={index} className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-1">
                 <div
