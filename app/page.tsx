@@ -51,33 +51,18 @@ const allData = {
       { name: "Level 7", Available: 0, Used: 0},
     ],
   },
-  itCapacityBar: {
-    "complex1-site2": [
-      { name: "Level 1", Used: 450, Sold: 400, Allocated: 75 },
-      { name: "Level 2", Used: 320, Sold: 350, Allocated: 30 },
-      { name: "Level 3", Used: 280, Sold: 320, Allocated: 60 },
-      { name: "Level 4", Used: 300, Sold: 330, Allocated: 40 },
-      { name: "Level 5", Used: 220, Sold: 380, Allocated: 70 },
-      { name: "Level 6", Used: 200, Sold: 340, Allocated: 120 },
-    ],
-    "complex2-site1": [
-      { name: "Level 1", Used: 380, Sold: 320, Allocated: 40 },
-      { name: "Level 2", Used: 280, Sold: 280, Allocated: 0 },
-      { name: "Level 3", Used: 220, Sold: 280, Allocated: 40 },
-      { name: "Level 4", Used: 260, Sold: 280, Allocated: 15 },
-      { name: "Level 5", Used: 180, Sold: 320, Allocated: 45 },
-      { name: "Level 6", Used: 160, Sold: 300, Allocated: 80 },
-    ],
-    default: [
-      { name: "Level 1", Used: 0, Sold: 2709, Allocated: 2709 },
-      { name: "Level 2", Used: 300, Sold: 300, Allocated: 0 },
-      { name: "Level 3", Used: 250, Sold: 300, Allocated: 50 },
-      { name: "Level 4", Used: 280, Sold: 300, Allocated: 20 },
-      { name: "Level 5", Used: 200, Sold: 350, Allocated: 50 },
-      { name: "Level 6", Used: 180, Sold: 320, Allocated: 100 },
-      { name: "Level 7", Used: 180, Sold: 320, Allocated: 100 },
-    ],
-  },
+itCapacityBar: {
+  default: [
+    { name: "Level 1", Available: 491, Sold: 2709, Allocated: 2709 },
+    { name: "Level 2", Available: 2402.25, Sold: 797.75, Allocated: 794.38 },
+    { name: "Level 3", Available: -30.00, Sold: 1630.00, Allocated: 1623.50 },
+    { name: "Level 4", Available: 0.00, Sold: 1600.00, Allocated: 1600.00 },
+    { name: "Level 5", Available: 0.00, Sold: 1600.00, Allocated: 1600.00 },
+    { name: "Level 6", Available: -138.00, Sold: 1738.00, Allocated: 1727.80 },
+    { name: "Level 7", Available: -72.00, Sold: 1672.00, Allocated: 1672.00 },
+  ],
+},
+
   itCapacityPie: {
     default: [
       { name: "Level 1", value: 0.00, color: "#6B7280" },
@@ -254,8 +239,8 @@ const AnimatedPieChart = () => {
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
       <div className="w-16 bg-white border-r border-gray-200 flex flex-col items-center py-4 space-y-4">
-        <div className="w-8 h-8 rounded flex items-center justify-center bg-blue-600 text-white font-bold">
-          D
+        <div className="w-8 h-8 rounded flex items-center justify-center text-white font-bold">
+          <img src="./temp.svg" alt="" />
         </div>
         <div className="flex flex-col space-y-3">
           <Button variant="ghost" size="icon" className="w-10 h-10 text-blue-600 bg-blue-50">
@@ -467,7 +452,7 @@ const AnimatedPieChart = () => {
                     <YAxis tick={{ fontSize: 12 }} />
                     <Tooltip content={(props) => <CompactTooltip {...props} type="capacity" />} />
                     <Legend wrapperStyle={{ fontSize: '12px' }} />
-                    <Bar dataKey="Used" stackId="a" fill="#10B981" radius={[0, 0, 0, 0]} />
+                    <Bar dataKey="Available" stackId="a" fill="#10B981" radius={[0, 0, 0, 0]} />
                     <Bar dataKey="Sold" stackId="a" fill="#F59E0B" radius={[0, 0, 0, 0]} />
                     <Bar dataKey="Allocated" stackId="a" fill="#3B82F6" radius={[2, 2, 0, 0]} />
                   </BarChart>
@@ -475,7 +460,7 @@ const AnimatedPieChart = () => {
                 <div className="flex items-center justify-center space-x-4 mt-4">
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 bg-green-500 rounded-sm"></div>
-                    <span className="text-xs text-gray-600">Used</span>
+                    <span className="text-xs text-gray-600">Available</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 bg-yellow-500 rounded-sm"></div>
@@ -538,7 +523,7 @@ const AnimatedPieChart = () => {
             <Card className="shadow-sm border-gray-200">
               <CardHeader className="flex flex-row items-center justify-between pb-3">
                 <CardTitle className="text-lg font-semibold text-gray-800">IT Capacity Distribution</CardTitle>
-                <div className="flex space-x-2">
+                {/* <div className="flex space-x-2">
                   <Select defaultValue="complex">
                     <SelectTrigger className="w-20 h-8 text-xs">
                       <SelectValue />
@@ -548,7 +533,7 @@ const AnimatedPieChart = () => {
                       <SelectItem value="site">Site</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
+                </div> */}
               </CardHeader>
               <CardContent>
                 <AnimatedPieChart />
