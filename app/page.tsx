@@ -470,45 +470,49 @@ const AnimatedPieChart = () => {
           {/* Bottom Row - IT Capacity Charts */}
           <div className="grid grid-cols-3 gap-6">
             <Card className="shadow-sm border-gray-200">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg font-semibold text-gray-800">IT Capacity</CardTitle>
-                <div className="bg-gray-800 text-white p-3 rounded-lg text-xs">
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>Total: <span className="font-semibold">14400 Kw</span></div>
-                    <div>Sold: <span className="font-semibold text-green-400">11746.75 Kw</span></div>
-                    <div>Used: <span className="font-semibold text-blue-400">11726.68 Kw</span></div>
-                    <div>Unsold: <span className="font-semibold text-red-400">2653.25 Kw</span></div>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent><ResponsiveContainer width="100%" height={280}>
-  <BarChart
-    data={itCapacityBarData}
-    margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-    barCategoryGap={10} // Adjust gap between groups
-    barGap={2}           // Adjust gap between bars in a group
-  >
-    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-    <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-    <YAxis
-      tick={{ fontSize: 12 }}
-      domain={['dataMin < 0 ? dataMin : 0', 'dataMax']}
-      tickFormatter={(value) => `${value} kW`}
-    />
-    <ReferenceLine y={0} stroke="red" strokeDasharray="3 3" />
-    <Tooltip />
-    <Legend wrapperStyle={{ fontSize: "12px" }} />
+  <CardHeader className="pb-3">
+    <CardTitle className="text-lg font-semibold text-gray-800">IT Capacity</CardTitle>
+    <div className="bg-gray-800 text-white p-3 rounded-lg text-xs">
+      <div className="grid grid-cols-2 gap-2">
+        <div>Total: <span className="font-semibold">14400 Kw</span></div>
+        <div>Sold: <span className="font-semibold text-green-400">11746.75 Kw</span></div>
+        <div>Used: <span className="font-semibold text-blue-400">11726.68 Kw</span></div>
+        <div>Unsold: <span className="font-semibold text-red-400">2653.25 Kw</span></div>
+      </div>
+    </div>
+  </CardHeader>
+  
+  <CardContent>
+    <ResponsiveContainer width="100%" height={280}>
+      <BarChart
+        data={itCapacityBarData}
+        margin={{ top: 20, right: 5, left: 5, bottom: 20 }} // tighter margins
+        barCategoryGap={8}
+        barGap={2}
+      >
+        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+        <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+        <YAxis
+          tick={{ fontSize: 12 }}
+          domain={[
+            (dataMin: number) => (dataMin > 0 ? 0 : dataMin - 50),
+            (dataMax: number) => dataMax + 200,
+          ]}
+          tickFormatter={(value) => `${value} kW`}
+        />
+        <ReferenceLine y={0} stroke="red" strokeDasharray="3 3" />
+        <Tooltip />
+        <Legend wrapperStyle={{ fontSize: "12px" }} />
 
-    <Bar dataKey="Available" fill="#10B981" barSize={20} />
-    <Bar dataKey="Sold" fill="#F59E0B" barSize={20} />
-    <Bar dataKey="Allocated" fill="#3B82F6" barSize={20} />
-    <Bar dataKey="Unused" fill="#EF4444" barSize={20} />
-  </BarChart>
-</ResponsiveContainer>
+        <Bar dataKey="Available" fill="#10B981" barSize={24} />
+        <Bar dataKey="Sold" fill="#F59E0B" barSize={24} />
+        <Bar dataKey="Allocated" fill="#3B82F6" barSize={24} />
+        <Bar dataKey="Unused" fill="#EF4444" barSize={24} />
+      </BarChart>
+    </ResponsiveContainer>
+  </CardContent>
+</Card>
 
-
-              </CardContent>
-            </Card>
             <Card className="shadow-sm border-gray-200">
               <CardHeader className="flex flex-row items-center justify-between pb-3">
                 <CardTitle className="text-lg font-semibold text-gray-800">IT Capacity</CardTitle>
