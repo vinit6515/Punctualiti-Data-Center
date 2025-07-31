@@ -427,7 +427,7 @@ const AnimatedPieChart = () => {
                   <BarChart data={rackSpaceData} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                     <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `${value} SQ FT`} />
+                    <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `${value} units`} />
                     <Tooltip content={(props) => <CompactTooltip {...props} type="rack" />} />
                     <Legend wrapperStyle={{ fontSize: '12px' }} />
                     <Bar dataKey="Available" stackId="a" fill="#10B981" radius={[0, 0, 0, 0]} />
@@ -453,18 +453,25 @@ const AnimatedPieChart = () => {
                 </Select>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={280}>
-                  <BarChart data={whiteSpaceData} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                    <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }} tickFormatter={(value) => `${value} SQ FT`}/>
-                    <Tooltip content={(props) => <CompactTooltip {...props} type="space" />} />
-                    <Legend wrapperStyle={{ fontSize: '12px' }} />
-                    <Bar dataKey="Available" stackId="a" fill="#10B981" radius={[0, 0, 0, 0]} />
-                    <Bar dataKey="Used" stackId="a" fill="#EF4444" radius={[2, 2, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
-
+          <ResponsiveContainer width="100%" height={280}>
+  <BarChart
+    data={whiteSpaceData}
+    margin={{ top: 20, right: 20, left: 50, bottom: 20 }} // ← left increased to give space for Y-axis
+    barCategoryGap={8} // ← adds padding between bars
+  >
+    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+    <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+    <YAxis
+      tick={{ fontSize: 12 }}
+      tickFormatter={(value) => `${value} units`}
+      padding={{ top: 10, bottom: 10 }} // ← adds padding within the Y-axis
+    />
+    <Tooltip content={(props) => <CompactTooltip {...props} type="space" />} />
+    <Legend wrapperStyle={{ fontSize: '12px' }} />
+    <Bar dataKey="Available" stackId="a" fill="#10B981" radius={[0, 0, 0, 0]} />
+    <Bar dataKey="Used" stackId="a" fill="#EF4444" radius={[2, 2, 0, 0]} />
+  </BarChart>
+</ResponsiveContainer>
               </CardContent>
             </Card>
           </div>
