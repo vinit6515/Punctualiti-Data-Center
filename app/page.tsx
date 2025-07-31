@@ -482,20 +482,25 @@ const AnimatedPieChart = () => {
                 </div>
               </CardHeader>
               <CardContent><ResponsiveContainer width="100%" height={280}>
-  <BarChart data={itCapacityBarData} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+  <BarChart
+    data={itCapacityBarData}
+    margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+  >
     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
     <XAxis dataKey="name" tick={{ fontSize: 12 }} />
     <YAxis
       tick={{ fontSize: 12 }}
-      domain={['dataMin < 0 ? dataMin : 0', 'dataMax']}
+      domain={['dataMin < 0 ? dataMin : 0', 'dataMax']} // Ensures negative values shown below 0
       tickFormatter={(value) => `${value} kW`}
     />
     <ReferenceLine y={0} stroke="red" strokeDasharray="3 3" />
-    <Tooltip content={(props) => <CompactTooltip {...props} type="capacity" />} />
-    <Legend wrapperStyle={{ fontSize: '12px' }} />
-    
-    <Bar dataKey="Available" fill="#10B981" radius={[0, 0, 0, 0]} />
-    <Bar dataKey="Sold" fill="#F59E0B" radius={[2, 2, 0, 0]} />
+    <Tooltip />
+    <Legend wrapperStyle={{ fontSize: "12px" }} />
+
+    <Bar dataKey="Available" fill="#10B981" />
+    <Bar dataKey="Sold" fill="#F59E0B" />
+    <Bar dataKey="Allocated" fill="#3B82F6" />
+    <Bar dataKey="Unused" fill="#EF4444" />
   </BarChart>
 </ResponsiveContainer>
 
