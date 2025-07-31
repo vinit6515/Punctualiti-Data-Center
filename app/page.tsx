@@ -485,24 +485,27 @@ const AnimatedPieChart = () => {
   <BarChart
     data={itCapacityBarData}
     margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+    barCategoryGap={10} // Adjust gap between groups
+    barGap={2}           // Adjust gap between bars in a group
   >
     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
     <XAxis dataKey="name" tick={{ fontSize: 12 }} />
     <YAxis
       tick={{ fontSize: 12 }}
-      domain={['dataMin < 0 ? dataMin : 0', 'dataMax']} // Ensures negative values shown below 0
+      domain={['dataMin < 0 ? dataMin : 0', 'dataMax']}
       tickFormatter={(value) => `${value} kW`}
     />
     <ReferenceLine y={0} stroke="red" strokeDasharray="3 3" />
     <Tooltip />
     <Legend wrapperStyle={{ fontSize: "12px" }} />
 
-    <Bar dataKey="Available" fill="#10B981" />
-    <Bar dataKey="Sold" fill="#F59E0B" />
-    <Bar dataKey="Allocated" fill="#3B82F6" />
-    <Bar dataKey="Unused" fill="#EF4444" />
+    <Bar dataKey="Available" fill="#10B981" barSize={20} />
+    <Bar dataKey="Sold" fill="#F59E0B" barSize={20} />
+    <Bar dataKey="Allocated" fill="#3B82F6" barSize={20} />
+    <Bar dataKey="Unused" fill="#EF4444" barSize={20} />
   </BarChart>
 </ResponsiveContainer>
+
 
               </CardContent>
             </Card>
